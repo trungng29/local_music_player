@@ -5,6 +5,4 @@ data class Artist(
     val avatarUrl: String,
     val albums: MutableList<Album>,
     val singles: MutableList<Song>
-) {
-
-}
+)

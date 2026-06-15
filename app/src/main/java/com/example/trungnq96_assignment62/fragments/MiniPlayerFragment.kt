@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.trungnq96_assignment62.R
+import com.example.trungnq96_assignment62.activities.MainActivity
+import com.example.trungnq96_assignment62.activities.SongActivity
 import com.example.trungnq96_assignment62.databinding.FragmentMiniPlayerBinding
 import com.example.trungnq96_assignment62.entities.Song
 
@@ -25,15 +27,19 @@ class MiniPlayerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.imageView9.setOnClickListener {
-            val mainActivity = activity as? com.example.trungnq96_assignment62.activities.MainActivity
-            if (mainActivity != null && mainActivity.isBound) {
-                val service = mainActivity.musicService
-                if (service != null) {
-                    if (service.isPlaying()) {
-                        service.pause()
+            val mainActivity = activity as? MainActivity
+            val songActivity = activity as? SongActivity
+            if ((mainActivity != null && mainActivity.isBound) || (songActivity != null && songActivity.isBound)) {
+                val serviceMain = mainActivity?.musicService
+                val serviceSong = songActivity?.musicService
+                if (serviceMain != null || serviceSong != null) {
+                    if (serviceSong?.isPlaying() == true || serviceMain?.isPlaying() == true) {
+                        serviceSong?.pause()
+                        serviceMain?.pause()
                         binding.imageView9.setImageResource(R.drawable.play_circle_24dp)
                     } else {
-                        service.resume()
+                        serviceSong?.resume()
+                        serviceMain?.resume()
                         binding.imageView9.setImageResource(R.drawable.pause_circle_24dp)
                     }
                 }

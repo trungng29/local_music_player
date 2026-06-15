@@ -46,10 +46,12 @@ class RVMainAdapter(
                 p0.tvArtist.text = it1.name
                 return@forEach
             }
-            it1.albums.forEach {
-                if (it.title == listSongs[p1].title) {
-                    p0.tvArtist.text = it1.name
-                    return@forEach
+            it1.albums.forEach { album ->
+                album.songs.forEach { song ->
+                    if (song.title == listSongs[p1].title) {
+                        p0.tvArtist.text = it1.name
+                        return@forEach
+                    }
                 }
             }
         }

@@ -45,24 +45,32 @@ class SongActivity : AppCompatActivity() {
             insets
         }
 
-        binding.tvArtistSongPage.setOnClickListener {
-            val intent = Intent(this, ArtistActivity::class.java)
-            startActivity(intent)
-        }
-
         binding.ivCoverSongPage.setImageResource(intent.getIntExtra("cover", R.drawable.ic_launcher_background))
         binding.tvSongTitleSongPage.text = intent.getStringExtra("name")
         binding.tvArtistSongPage.text = intent.getStringExtra("author")
 
+        binding.tvArtistSongPage.setOnClickListener {
+            val intent = Intent(this, ArtistActivity::class.java)
+            intent.putExtra("artist_name", binding.tvArtistSongPage.text.toString())
+            startActivity(intent)
+        }
 
         val intent = Intent(this@SongActivity, MusicService::class.java)
         bindService(intent, connection, BIND_AUTO_CREATE)
 
         binding.ivPlayPauseButton.setOnClickListener {
-            
+            if (isBound) {
+                val service = musicService
+                if (service != null) {
+                    if (service.isPlaying()) {
+                        service.pause()
+                        binding.ivPlayPauseButton.setImageResource(R.drawable.play_circle_24dp)
+                    } else {
+                        service.resume()
+                        binding.ivPlayPauseButton.setImageResource(R.drawable.pause_circle_24dp)
+                    }
+                }
+            }
         }
-
-
-
     }
 }
