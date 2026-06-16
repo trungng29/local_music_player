@@ -1,21 +1,15 @@
 package com.example.trungnq96_assignment62.activities
 
 import android.Manifest
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.IBinder
-import android.widget.RemoteViews
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.trungnq96_assignment62.R
@@ -25,9 +19,7 @@ import com.example.trungnq96_assignment62.objects.ListsObject
 import com.example.trungnq96_assignment62.services.MusicService
 import com.google.android.material.tabs.TabLayoutMediator
 
-const val CHANNEL_ID = "1"
 const val REQUEST_CODE = 100
-const val NOTIFICATION_ID = 1
 
 class MainActivity : AppCompatActivity() {
 
@@ -64,7 +56,6 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, permission, REQUEST_CODE)
         }
 
-        buildNotification()
         setupViewPager()
 
         // Load Playlists từ bộ nhớ điện thoại khi mở app
@@ -87,36 +78,6 @@ class MainActivity : AppCompatActivity() {
                 else -> ""
             }
         }.attach()
-    }
-
-    private fun buildNotification() {
-        val channel = NotificationChannel(CHANNEL_ID, "Music Notification", NotificationManager.IMPORTANCE_DEFAULT)
-        val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        manager.createNotificationChannel(channel)
-
-        val remoteView = RemoteViews(packageName, R.layout.music_player)
-        val remoteViewBig = RemoteViews(packageName, R.layout.music_player_big)
-
-        val pauseIntent = PendingIntent.getBroadcast(this, 0, Intent("PAUSE").setPackage(packageName), PendingIntent.FLAG_IMMUTABLE)
-        val nextIntent = PendingIntent.getBroadcast(this, 1, Intent("SKIP_NEXT").setPackage(packageName), PendingIntent.FLAG_IMMUTABLE)
-        val previousIntent = PendingIntent.getBroadcast(this, 2, Intent("SKIP_PREVIOUS").setPackage(packageName), PendingIntent.FLAG_IMMUTABLE)
-        val closeIntent = PendingIntent.getBroadcast(this, 3, Intent("CLOSE").setPackage(packageName), PendingIntent.FLAG_IMMUTABLE)
-
-        remoteView.setOnClickPendingIntent(R.id.ivPause, pauseIntent)
-        remoteView.setOnClickPendingIntent(R.id.ivNext, nextIntent)
-        remoteView.setOnClickPendingIntent(R.id.ivPrev, previousIntent)
-        remoteView.setOnClickPendingIntent(R.id.ivClose, closeIntent)
-
-        remoteViewBig.setOnClickPendingIntent(R.id.ivPause, pauseIntent)
-        remoteViewBig.setOnClickPendingIntent(R.id.ivNext, nextIntent)
-        remoteViewBig.setOnClickPendingIntent(R.id.ivPrev, previousIntent)
-        remoteViewBig.setOnClickPendingIntent(R.id.ivClose, closeIntent)
-
-        val builder = NotificationCompat.Builder(this,CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setCustomContentView(remoteView)
-            .setCustomBigContentView(remoteViewBig)
-
     }
 
     override fun onDestroy() {

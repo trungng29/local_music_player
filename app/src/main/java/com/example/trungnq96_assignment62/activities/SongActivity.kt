@@ -67,6 +67,14 @@ class SongActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.imageView3.setOnClickListener {
+            if (isBound) musicService?.previous()
+        }
+
+        binding.imageView4.setOnClickListener {
+            if (isBound) musicService?.next()
+        }
         
         MusicService.addListener(stateListener)
     }

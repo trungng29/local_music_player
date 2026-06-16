@@ -73,7 +73,7 @@ class ArtistActivity : AppCompatActivity() {
                 it.layoutManager = LinearLayoutManager(this@ArtistActivity)
                 it.adapter = RVMainAdapter(songs.take(count).toMutableList(), mutableListOf(art), this@ArtistActivity) { song ->
                     if (isBound) {
-                        musicService?.playSong(song, art.name)
+                        musicService?.playSong(song, art.name, songs)
                     }
                 }
                 it.isNestedScrollingEnabled = false

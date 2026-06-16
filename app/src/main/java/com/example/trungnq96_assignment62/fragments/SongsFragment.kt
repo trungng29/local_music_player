@@ -63,7 +63,7 @@ class SongsFragment : Fragment() {
                         }
                     }
                 }
-                musicService?.playSong(song, artistName)
+                musicService?.playSong(song, artistName, ListsObject.listSongs)
             }
         }
     }

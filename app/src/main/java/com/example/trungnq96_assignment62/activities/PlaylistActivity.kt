@@ -84,7 +84,7 @@ class PlaylistActivity : AppCompatActivity() {
                             }
                         }
                     }
-                    musicService?.playSong(song, artistName)
+                    musicService?.playSong(song, artistName, playlist.songs)
                 }
             }
         }

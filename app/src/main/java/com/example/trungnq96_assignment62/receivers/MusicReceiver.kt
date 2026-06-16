@@ -5,7 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
-import com.example.trungnq96_assignment62.activities.NOTIFICATION_ID
+import com.example.trungnq96_assignment62.services.MusicService
 
 class MusicReceiver : BroadcastReceiver() {
 
@@ -13,7 +13,7 @@ class MusicReceiver : BroadcastReceiver() {
         val action = intent.action
         if (action == "MUSIC_CLOSE") {
             val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            manager.cancel(NOTIFICATION_ID)
+            manager.cancel(MusicService.NOTIFICATION_ID)
             Toast.makeText(context, "Music closed", Toast.LENGTH_SHORT).show()
             return
         } else {

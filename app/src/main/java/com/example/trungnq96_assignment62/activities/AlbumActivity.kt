@@ -73,7 +73,7 @@ class AlbumActivity : AppCompatActivity() {
                 it.layoutManager = LinearLayoutManager(this@AlbumActivity)
                 it.adapter = RVMainAdapter(albumMain!!.songs.toMutableList(), arrayListOf(artistMain!!), this@AlbumActivity) { song ->
                     if (isBound) {
-                        musicService?.playSong(song, artistMain!!.name)
+                        musicService?.playSong(song, artistMain!!.name, albumMain!!.songs)
                     }
                 }
             }

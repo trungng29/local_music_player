@@ -59,7 +59,7 @@
                     android:layout_marginStart="8dp"
                     android:gravity="bottom|start"
                     android:text="Marzuz"
-                    android:textColor="#804342"
+                    android:textColor="#4C2E81"
                     android:textSize="34sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
