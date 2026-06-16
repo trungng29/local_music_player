@@ -21,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.trungnq96_assignment62.R
 import com.example.trungnq96_assignment62.adapters.MainPagerAdapter
 import com.example.trungnq96_assignment62.databinding.ActivityMainBinding
+import com.example.trungnq96_assignment62.objects.ListsObject
 import com.example.trungnq96_assignment62.services.MusicService
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -65,6 +66,9 @@ class MainActivity : AppCompatActivity() {
 
         buildNotification()
         setupViewPager()
+
+        // Load Playlists từ bộ nhớ điện thoại khi mở app
+        ListsObject.loadPlaylists(this)
 
         val intent = Intent(this@MainActivity, MusicService::class.java)
         bindService(intent, connection, BIND_AUTO_CREATE)

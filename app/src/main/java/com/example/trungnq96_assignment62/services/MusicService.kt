@@ -64,7 +64,15 @@ class MusicService : Service() {
                 stopSelf()
             }
         }
-        return START_NOT_STICKY
+        return START_STICKY
+    }
+
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        // Nếu không phát nhạc, có thể dừng service để tiết kiệm pin
+        if (!isPlaying) {
+            stopSelf()
+        }
+        super.onTaskRemoved(rootIntent)
     }
 
     private fun updateNotification() {
@@ -124,6 +132,11 @@ class MusicService : Service() {
     }
 
     fun playSong(song: Song, artistName: String) {
+        // Gọi startService để Service chuyển sang trạng thái "Started"
+        // Giúp Service tồn tại độc lập kể cả khi app bị vuốt bỏ (Unbind)
+        val intent = Intent(this, MusicService::class.java)
+        startService(intent)
+
         val resId = resources.getIdentifier(song.audioUrl, "raw", packageName)
         if (resId == 0) return
 

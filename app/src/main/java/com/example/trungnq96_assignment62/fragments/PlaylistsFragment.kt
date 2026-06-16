@@ -94,6 +94,10 @@ class PlaylistsFragment : Fragment() {
                 val newPlaylist = Playlist(playlistName)
                 newPlaylist.songs.addAll(selectedSongs)
                 ListsObject.listPlaylists.add(newPlaylist)
+                
+                // Lưu danh sách Playlists vào điện thoại sau khi thêm mới
+                ListsObject.savePlaylists(requireContext())
+
                 updateAdapter()
             }
             .setNegativeButton("Cancel", null)
