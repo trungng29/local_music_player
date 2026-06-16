@@ -59,30 +59,21 @@ class MainActivity : AppCompatActivity() {
                 this@MainActivity
             ) { song ->
                 if (isBound) {
-                    val audioResId = resources.getIdentifier(song.audioUrl, "raw", packageName)
-                    if (audioResId != 0) {
-                        musicService?.playSong(audioResId)
-                        
-                        // Đồng bộ Fragment MiniPlayer
-                        val fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as? com.example.trungnq96_assignment62.fragments.MiniPlayerFragment
-                        
-                        // Tìm tên nghệ sĩ để hiển thị
-                        var artistName = "Unknown"
-                        ListsObject.listArtists.forEach { artist ->
-                            if (artist.singles.contains(song)) {
+                    // Tìm tên nghệ sĩ để hiển thị
+                    var artistName = "Unknown"
+                    ListsObject.listArtists.forEach { artist ->
+                        if (artist.singles.contains(song)) {
+                            artistName = artist.name
+                            return@forEach
+                        }
+                        artist.albums.forEach { album ->
+                            if (album.songs.contains(song)) {
                                 artistName = artist.name
                                 return@forEach
                             }
-                            artist.albums.forEach { album ->
-                                if (album.songs.contains(song)) {
-                                    artistName = artist.name
-                                    return@forEach
-                                }
-                            }
                         }
-                        
-                        fragment?.updateSongInfo(song, artistName)
                     }
+                    musicService?.playSong(song, artistName)
                 }
             }
         }

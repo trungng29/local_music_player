@@ -17,13 +17,11 @@ class SongActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySongBinding
 
-    var musicService: MusicService? = null
-    var isBound: Boolean = false
+    private var musicService: MusicService? = null
+    private var isBound: Boolean = false
+    
     private val connection = object: ServiceConnection {
-        override fun onServiceConnected(
-            p0: ComponentName?,
-            p1: IBinder?
-        ) {
+        override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
             musicService = (p1 as MusicService.MusicBinder).getService()
             isBound = true
         }
@@ -31,6 +29,12 @@ class SongActivity : AppCompatActivity() {
         override fun onServiceDisconnected(p0: ComponentName?) {
             musicService = null
             isBound = false
+        }
+    }
+
+    private val stateListener = {
+        runOnUiThread {
+            updateUI()
         }
     }
 
@@ -45,10 +49,6 @@ class SongActivity : AppCompatActivity() {
             insets
         }
 
-        binding.ivCoverSongPage.setImageResource(intent.getIntExtra("cover", R.drawable.ic_launcher_background))
-        binding.tvSongTitleSongPage.text = intent.getStringExtra("name")
-        binding.tvArtistSongPage.text = intent.getStringExtra("author")
-
         binding.tvArtistSongPage.setOnClickListener {
             val intent = Intent(this, ArtistActivity::class.java)
             intent.putExtra("artist_name", binding.tvArtistSongPage.text.toString())
@@ -60,17 +60,38 @@ class SongActivity : AppCompatActivity() {
 
         binding.ivPlayPauseButton.setOnClickListener {
             if (isBound) {
-                val service = musicService
-                if (service != null) {
-                    if (service.isPlaying()) {
-                        service.pause()
-                        binding.ivPlayPauseButton.setImageResource(R.drawable.play_circle_24dp)
-                    } else {
-                        service.resume()
-                        binding.ivPlayPauseButton.setImageResource(R.drawable.pause_circle_24dp)
-                    }
+                if (MusicService.isPlaying) {
+                    musicService?.pause()
+                } else {
+                    musicService?.resume()
                 }
             }
+        }
+        
+        MusicService.addListener(stateListener)
+    }
+
+    private fun updateUI() {
+        val song = MusicService.currentSong
+        val artist = MusicService.currentArtist
+        val isPlaying = MusicService.isPlaying
+
+        if (song != null) {
+            binding.ivCoverSongPage.setImageResource(resources.getIdentifier(song.coverUrl, "drawable", packageName))
+            binding.tvSongTitleSongPage.text = song.title
+            binding.tvArtistSongPage.text = artist
+            binding.ivPlayPauseButton.setImageResource(
+                if (isPlaying) R.drawable.pause_circle_24dp else R.drawable.play_circle_24dp
+            )
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        MusicService.removeListener(stateListener)
+        if (isBound) {
+            unbindService(connection)
+            isBound = false
         }
     }
 }

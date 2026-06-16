@@ -5,8 +5,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.trungnq96_assignment62.R
+import com.example.trungnq96_assignment62.adapters.RVAlbumAdapter
+import com.example.trungnq96_assignment62.adapters.RVMainAdapter
 import com.example.trungnq96_assignment62.databinding.ActivityAlbumBinding
+import com.example.trungnq96_assignment62.entities.Album
+import com.example.trungnq96_assignment62.entities.Artist
+import com.example.trungnq96_assignment62.objects.ListsObject
 
 class AlbumActivity : AppCompatActivity() {
 
@@ -22,5 +28,35 @@ class AlbumActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        lateinit var artistMain: Artist
+        lateinit var albumMain: Album
+
+        ListsObject.listArtists.forEach { artist ->
+            if (artist.name == intent.getStringExtra("author")) {
+                artistMain = artist
+                return@forEach
+            }
+        }
+
+        artistMain.albums.forEach { album ->
+            if (album.title == intent.getStringExtra("name").toString()) {
+                albumMain = album
+                return@forEach
+            }
+        }
+
+        binding.rvSongsAlbumPage.also {
+            it.layoutManager = LinearLayoutManager(this@AlbumActivity)
+            it.adapter = RVMainAdapter(albumMain.songs.toMutableList(), arrayListOf(artistMain), this@AlbumActivity) {}
+        }
+
+//    it.putExtra("cover", resId)
+//    it.putExtra("name", listAlbums[position].title)
+//    it.putExtra("author", holder.tvArtist.text)
+
+        binding.ivAlbumCoverAlbumPage.setImageResource(intent.getIntExtra("cover", R.drawable.a_marzuz))
+        binding.tvAlbumAlbumPage.text = intent.getStringExtra("name")
+
     }
 }

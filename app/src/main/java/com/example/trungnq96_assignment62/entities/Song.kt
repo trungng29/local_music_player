@@ -5,5 +5,4 @@ data class Song(
     val coverUrl: String,
     val audioUrl: String,
     val duration: Int = 0
-) {
-}
+)
