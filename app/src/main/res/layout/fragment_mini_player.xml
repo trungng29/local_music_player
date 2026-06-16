@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:background="#FFEBEE"
+    android:background="#F3E5F5"
     tools:context=".fragments.MiniPlayerFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout

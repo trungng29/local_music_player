@@ -3,11 +3,13 @@ package com.example.trungnq96_assignment62.objects
 import androidx.appcompat.R
 import com.example.trungnq96_assignment62.entities.Album
 import com.example.trungnq96_assignment62.entities.Artist
+import com.example.trungnq96_assignment62.entities.Playlist
 import com.example.trungnq96_assignment62.entities.Song
 
 object ListsObject {
     val listSongs: MutableList<Song> = ArrayList<Song>()
     val listArtists: MutableList<Artist> = ArrayList<Artist>()
+    val listPlaylists: MutableList<Playlist> = ArrayList<Playlist>()
 
     init {
         listArtists.add(Artist("Marzuz", "marzuz_avatar", ArrayList(), ArrayList()).also {

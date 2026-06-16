@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFEBEE"
+    android:background="#F3E5F5"
     tools:context=".activities.SongActivity">
 
     <LinearLayout

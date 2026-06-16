@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,7 +18,8 @@
         <service
             android:name=".services.MusicService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:foregroundServiceType="mediaPlayback" />
 
         <activity
             android:name=".activities.ArtistActivity"
@@ -35,6 +40,21 @@
             android:name=".activities.AlbumActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.PlaylistActivity"
+            android:exported="false" />
+
+        <receiver
+            android:name=".receivers.MusicReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="MUSIC_PAUSE" />
+                <action android:name="MUSIC_SKIP_NEXT" />
+                <action android:name="MUSIC_SKIP_PREVIOUS" />
+                <action android:name="MUSIC_CLOSE"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

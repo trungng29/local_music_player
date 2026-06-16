@@ -1,5 +1,6 @@
 package com.example.trungnq96_assignment62.entities
 
-data class PlayList(
-    val songs: MutableList<Song>
+data class Playlist(
+    var name: String,
+    val songs: MutableList<Song> = mutableListOf()
 )

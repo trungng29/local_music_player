@@ -60,6 +60,19 @@ class MiniPlayerFragment : Fragment() {
                 }
             }
         }
+
+        binding.root.setOnClickListener {
+            val song = MusicService.currentSong
+            if (song != null) {
+                val intent = Intent(requireContext(), com.example.trungnq96_assignment62.activities.SongActivity::class.java).also {
+                    val resId = resources.getIdentifier(song.coverUrl, "drawable", requireContext().packageName)
+                    it.putExtra("cover", resId)
+                    it.putExtra("name", song.title)
+                    it.putExtra("author", MusicService.currentArtist)
+                }
+                startActivity(intent)
+            }
+        }
         
         MusicService.addListener(stateListener)
     }
